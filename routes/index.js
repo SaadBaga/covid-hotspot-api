@@ -3,8 +3,21 @@ let router = express.Router();
 
 import admin from 'firebase-admin';
 import firebase from'firebase';
+// import serviceAccount from '../covid-hotspot-tracker.json'
 
-import serviceAccount from '../covid-hotspot-tracker-firebase-adminsdk-sk5lq-7ad8b5045e.json' ;
+
+let serviceAccount = {
+  "type": "service_account",
+  "project_id": "covid-hotspot-tracker",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "private_key_id" : process.env.private_key_id,
+  "private_key": process.env.private_key,
+  "client_email": process.env.client_email,
+  "client_id": process.env.client_id,
+  "client_x509_cert_url": process.env.client_x509_cert_url
+}
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -13,12 +26,9 @@ admin.initializeApp({
 let db = admin.firestore();
 
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
-
-// const citiesList= [{"cityId":1,"cityName":"mumbai"},{"cityId":1,"cityName":"pune"}];
 
 router.get('/cities', function(req, res, next) {
   
