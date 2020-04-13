@@ -49,13 +49,29 @@ router.get('/cities', function(req, res, next) {
 });
 
 router.post('/locations/data', function(req, res, next) {
+	
 
+	let citiesRef = db.collection(' city-details');
+	let queryByTimeStamp = citiesRef.where('cityId', '==', req.body.cityId).where('timestamp', '>', req.body.timestamp).get()
+		.then(snapshot => {
+
+		})
+		.catch(err => {
+		  console.log('Error getting documents', err);
+		  // res.status(400).send({"err":err});
+		});
+		
 	let locationRef = db.collection('locations');
 	let query = locationRef.where('cityId', '==', req.body.cityId).get()
 	  .then(snapshot => {
 	  	let tempArr = [];
 	    snapshot.forEach(doc => {
-	      tempArr.push(doc.data())
+	    	let obj = {}
+	    	obj.areaName = doc.data().areaName;
+	    	obj.lat = doc.data().lat;
+	    	obj.cityId = doc.data().cityId;
+	    	obj.lng = doc.data().long;
+	      tempArr.push(obj)
 	    });
 	    res.status(200).send({"data":tempArr});
 	  })
