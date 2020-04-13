@@ -13,7 +13,7 @@ let serviceAccount = {
   "token_uri": "https://oauth2.googleapis.com/token",
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
   "private_key_id" : process.env.private_key_id,
-  "private_key": process.env.private_key,
+  "private_key": process.env.private_key.replace(/\\n/g, '\n'),
   "client_email": process.env.client_email,
   "client_id": process.env.client_id,
   "client_x509_cert_url": process.env.client_x509_cert_url
